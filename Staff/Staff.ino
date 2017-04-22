@@ -1,6 +1,6 @@
 //Cosplay staff
 //Currently this code is designed to make the lights change colour every button press
-//review lines 15, 24
+//review lines 17,36, 54, 61,68
 
 
 #include "FastLED.h"
@@ -16,19 +16,20 @@ int buttonA = 2; //Adjust as needed
 int buttonB = 3;
 int ledPin = 13; //debugging ----------------------
 int readPin = 0;
-CRGB PriorityColour;
+int readPinB = 0;
+CRGB CurrentColour;
 CRGB ColourRed;
 CRGB ColourGreen;
 
 
 void setup() {
 
-     delay(2000); //Why so high, I think this is unnessecary
+     delay(500); 
      
      FastLED.addLeds<WS2812B, DATA_PIN, GRB>(leds, NUM_LEDS);
      ColourRed = CRGB(255,10,10);
      ColourGreen = CRGB(30,205,25);
-     PriorityColour = ColourRed;
+     CurrentColour = ColourRed;
 
      pinMode(buttonA, INPUT);
      pinMode(buttonB, INPUT);
@@ -47,21 +48,28 @@ void loop() {
   FastLED.show();
 
   readPin = digitalRead(buttonA);
+  readPinB = digitalRead(buttonB);
   
-  if(readPin == HIGH){
+  if((readPin == HIGH) && (readPinB == LOW)){
   digitalWrite(ledPin, HIGH); //debugging --------------------
-    if(PriorityColour == ColourGreen){
-      PriorityColour = ColourRed;
+    if(CurrentColour == ColourGreen){
+      CurrentColour = ColourRed;
     }
-    else if(PriorityColour == ColourRed){
-      PriorityColour = ColourGreen;
-    }
-    else{
-      PriorityColour = CRGB::White; //Problem
-    }
+  }
   
-  }//End Debounce 
-  delay(1000);//This might be high,maybe 100
+  if((readPinB == HIGH) && (readPin == LOW)){
+    //you can move line 53 here once you have button a working -------
+    if(CurrentColour == ColourRed){
+      CurrentColour = ColourGreen;
+    }
+  }
+    
+  if((readPin ==HIGH) && (readPinB == HIGH)){
+    //once those two are working test it here-------------------------
+      CurrentColour = CRGB::White; //Problem
+  }
+   
+  delay(100);
   digitalWrite(ledPin,LOW);
 }//End Loop
 
