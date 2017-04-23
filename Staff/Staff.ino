@@ -46,7 +46,7 @@ void loop() {
 
   readPin = digitalRead(buttonA);
   
-  if(readPin == HIGH){
+  if(readPin == LOW){
   digitalWrite(ledPin, HIGH); //debugging --------------------
     if(CurrentColour == ColourGreen){
       CurrentColour = ColourRed;
