@@ -13,10 +13,8 @@ CRGB leds[NUM_LEDS];
 
 //used to this style personally, I think in arduino int and define are similar
 int buttonA = 2; //Adjust as needed
-int buttonB = 3;
 int ledPin = 13; //debugging ----------------------
 int readPin = 0;
-int readPinB = 0;
 CRGB CurrentColour;
 CRGB ColourRed;
 CRGB ColourGreen;
@@ -32,7 +30,6 @@ void setup() {
      CurrentColour = ColourRed;
 
      pinMode(buttonA, INPUT);
-     pinMode(buttonB, INPUT);
      pinMode(ledPin,OUTPUT); //debugging --------------------------------
 } //End SetUp
 
@@ -48,27 +45,16 @@ void loop() {
   FastLED.show();
 
   readPin = digitalRead(buttonA);
-  readPinB = digitalRead(buttonB);
   
-  if((readPin == HIGH) && (readPinB == LOW)){
+  if(readPin == HIGH){
   digitalWrite(ledPin, HIGH); //debugging --------------------
     if(CurrentColour == ColourGreen){
       CurrentColour = ColourRed;
     }
-  }
-  
-  if((readPinB == HIGH) && (readPin == LOW)){
-    //you can move line 53 here once you have button a working -------
-    if(CurrentColour == ColourRed){
+    else{
       CurrentColour = ColourGreen;
     }
   }
-    
-  if((readPin ==HIGH) && (readPinB == HIGH)){
-    //once those two are working test it here-------------------------
-      CurrentColour = CRGB::White; //Problem
-  }
-   
   delay(100);
   digitalWrite(ledPin,LOW);
 }//End Loop
