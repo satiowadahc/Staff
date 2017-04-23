@@ -42,7 +42,7 @@ void loop() {
 
 //loops make the world go round
   for(int i=0;i<=NUM_LEDS;i++){
-    leds[i] = ColourRed; 
+    leds[i] = CurrentColour; 
   }
   
   FastLED.show();
